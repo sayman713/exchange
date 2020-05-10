@@ -9,23 +9,15 @@ from os import path
 # для вывода данных из скрипта в конфиг conky, необходимо прописать путь до temp,
 # к примеру ${execi 10 cat $HOME/.conky/sayman/temp}
 
-
-# Дата вчера.
 datet = datetime.datetime.now()-timedelta(days=1)
 
-
-# Дата сегодня.
 date = datetime.datetime.now()
 
-
-# Импорт данных.
 lincy='http://www.cbr.ru/scripts/XML_daily.asp?date_req='+str(datet.strftime("%d-%m-%Y"))
 lincnow='http://www.cbr.ru/scripts/XML_daily.asp'
 s = requests.post(lincy).text
 sn = requests.post(lincnow).text
 
-
-# Получаем цифры из строки.
 l = len(s)
 integ = []
 i = 0
@@ -42,8 +34,6 @@ while i < l:
     i += 1
     if s_int != '':
         integ.append(s_int)
-
-
 
 l = len(sn)
 integn = []
@@ -71,7 +61,6 @@ while i < l:
 #TMT[134:136] UZS[139:141] UAH[144:146] CZK[149:151] SEK[154:156]
 #CHF[159:161] ZAR[164:166] KRW[169:171] JPY[174:176]
 
-# Слайс из списка, вчера
 numu1, numu2 = integ[59:61]
 usd=numu1+'.'+numu2
 flusdt=float(usd)
@@ -80,12 +69,8 @@ nume1, nume2 = integ[64:66]
 eur=nume1+'.'+nume2
 fleurt=float(eur)
 
-
-# Экспорт данных в тэмп
-
 temp = open('temp', 'w')
 
-# Слайс из списка, сегодня, сравнение и печать.
 numu1, numu2 = integn[59:61]
 usd=numu1+'.'+numu2
 flusd=float(usd)
@@ -94,7 +79,6 @@ if flusdt <= flusd:
 else:
     print(date.strftime(" %d/%m/%Y"), ' USD ',flusd,' ▼', file=temp)
 
-
 nume1, nume2 = integn[64:66]
 eur=nume1+'.'+nume2
 fleur=float(eur)
@@ -102,7 +86,6 @@ if flusdt <= flusd:
     print(date.strftime(" %d/%m/%Y"), ' EUR ',fleur,' ▲', file=temp)
 else:
     print(date.strftime(" %d/%m/%Y"), ' EUR ',fleur,' ▼', file=temp)
-
 
 temp.close()
 
