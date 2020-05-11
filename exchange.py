@@ -16,26 +16,19 @@ st = requests.post(lincy).text
 sn = requests.post(lincnow).text
 
 
-
-def str_num(x):
-    l = len(x)
-    integ = []
-    i = 0
-    while i < l:
-        s_int = ''
-        a = x[i]
-        while '0' <= a <= '9':
-            s_int += a
-            i += 1
-            if i < l:
-                a = x[i]
-            else:
-                break
-        i += 1
-        if s_int != '':
-            integ.append(s_int)
-    return integ
-
+def str_num_func(line):
+    num_out_of_line = []
+    str_num = ""
+    for i in range(len(line)):
+        if line[i] in "0123456789":
+            str_num += line[i]
+            try:
+                if line[i+1] not in "0123456789":
+                    num_out_of_line.append(str_num)
+                    str_num = ""
+            except:
+                num_out_of_line.append(str_num)
+    return num_out_of_line
 
 
 # Индексы валют, подставьте нужный индекс, по умолчанию выведено EUR, USD
@@ -48,15 +41,15 @@ def str_num(x):
 # CHF[159:161] ZAR[164:166] KRW[169:171] JPY[174:176]
 
 
-numu1, numu2 = str_num(st)[59:61]
+numu1, numu2 = str_num_func(st)[59:61]
 flusdt = float(numu1+'.'+numu2)
-nume1, nume2 = str_num(st)[64:66]
+nume1, nume2 = str_num_func(st)[64:66]
 fleurt = float(nume1+'.'+nume2)
 
 
 temp = open('temp', 'w')
 
-numu1, numu2 = str_num(sn)[59:61]
+numu1, numu2 = str_num_func(sn)[59:61]
 flusd = float(numu1+'.'+numu2)
 if flusdt <= flusd:
     print(date.strftime(" %d/%m/%Y"), ' USD ',flusd,' ▲', file=temp)
@@ -64,8 +57,7 @@ else:
     print(date.strftime(" %d/%m/%Y"), ' USD ',flusd,' ▼', file=temp)
 
 
-
-nume1, nume2 = str_num(sn)[64:66]
+nume1, nume2 = str_num_func(sn)[64:66]
 fleur = float(nume1+'.'+nume2)
 if flusdt <= flusd:
     print(date.strftime(" %d/%m/%Y"), ' EUR ',fleur,' ▲', file=temp)
