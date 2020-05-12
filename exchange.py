@@ -1,19 +1,16 @@
 #!/usr/bin/env python3
-import requests
-import datetime
+import requests; import datetime
 from datetime import timedelta
 
 # Автор скрипта: sayman713
 # для вывода данных из скрипта в конфиг conky, необходимо прописать путь до temp,
 # к примеру ${execi 10 cat $HOME/.conky/sayman/temp}
 
-datet = datetime.datetime.now()-timedelta(days=1)
-date = datetime.datetime.now()
+datet = datetime.datetime.now()-timedelta(days=1); date = datetime.datetime.now()
 
 lincy='http://www.cbr.ru/scripts/XML_daily.asp?date_req='+str(datet.strftime("%d-%m-%Y"))
 lincnow='http://www.cbr.ru/scripts/XML_daily.asp'
-st = requests.post(lincy).text
-sn = requests.post(lincnow).text
+st = requests.post(lincy).text; sn = requests.post(lincnow).text
 
 
 def str_num_func(line):
@@ -41,24 +38,20 @@ def str_num_func(line):
 # CHF[159:161] ZAR[164:166] KRW[169:171] JPY[174:176]
 
 
-numu1, numu2 = str_num_func(st)[59:61]
-flusdt = float(numu1+'.'+numu2)
-nume1, nume2 = str_num_func(st)[64:66]
-fleurt = float(nume1+'.'+nume2)
+numu1, numu2 = str_num_func(st)[59:61]; flusdt = float(numu1+'.'+numu2)
+nume1, nume2 = str_num_func(st)[64:66]; fleurt = float(nume1+'.'+nume2)
 
 
 temp = open('temp', 'w')
 
-numu1, numu2 = str_num_func(sn)[59:61]
-flusd = float(numu1+'.'+numu2)
+numu1, numu2 = str_num_func(sn)[59:61]; flusd = float(numu1+'.'+numu2)
 if flusdt <= flusd:
     print(date.strftime(" %d/%m/%Y"), ' USD ',flusd,' ▲', file=temp)
 else:
     print(date.strftime(" %d/%m/%Y"), ' USD ',flusd,' ▼', file=temp)
 
 
-nume1, nume2 = str_num_func(sn)[64:66]
-fleur = float(nume1+'.'+nume2)
+nume1, nume2 = str_num_func(sn)[64:66]; fleur = float(nume1+'.'+nume2)
 if flusdt <= flusd:
     print(date.strftime(" %d/%m/%Y"), ' EUR ',fleur,' ▲', file=temp)
 else:
