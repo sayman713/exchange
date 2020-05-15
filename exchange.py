@@ -2,14 +2,14 @@
 import requests; import datetime
 from datetime import timedelta
 
-# Автор скрипта: sayman713
 # для вывода данных из скрипта в конфиг conky, необходимо прописать путь до temp,
 # к примеру ${execi 10 cat $HOME/.conky/sayman/temp}
 
-datet = datetime.datetime.now()-timedelta(days=1); date = datetime.datetime.now()
+datet = datetime.datetime.now()-timedelta(days=1)
+date = datetime.datetime.now()
 
 lincy='http://www.cbr.ru/scripts/XML_daily.asp?date_req='+str(datet.strftime("%d-%m-%Y"))
-lincnow='http://www.cbr.ru/scripts/XML_daily.asp'
+lincnow='http://www.cbr.ru/scripts/XML_daily.asp?date_req='+str(date.strftime("%d-%m-%Y"))
 st = requests.post(lincy).text; sn = requests.post(lincnow).text
 
 
@@ -52,7 +52,7 @@ else:
 
 
 nume1, nume2 = str_num_func(sn)[64:66]; fleur = float(nume1+'.'+nume2)
-if flusdt <= flusd:
+if fleurt <= fleur:
     print(date.strftime(" %d/%m/%Y"), ' EUR ',fleur,' ▲', file=temp)
 else:
     print(date.strftime(" %d/%m/%Y"), ' EUR ',fleur,' ▼', file=temp)
