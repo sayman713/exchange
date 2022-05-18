@@ -1,0 +1,118 @@
+# — SETTINGS — #
+background yes
+update_interval 2.0
+cpu_avg_samples 2
+net_avg_samples 2
+double_buffer yes
+no_buffers yes
+#text_buffer_size 1024
+
+# — WINDOW — #
+own_window yes
+own_window_type normal
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+
+# — BORDER — #
+#border_inner_margin 1
+#border_outer_margin 1
+
+# — SIZE — #
+minimum_size 300 10
+maximum_width 300
+
+
+# — ALIGNMENT — #
+alignment top_right
+gap_x 5
+gap_y 100
+
+# — GRAPHIC — #
+draw_shades yes
+draw_outline no
+draw_borders no
+draw_graph_borders yes
+
+# — TEXT — #
+use_xft yes
+xftfont Liberation:size=10
+xftalpha 0.8
+uppercase no
+override_utf8_locale yes
+default_color fff
+
+# — LUA — #
+#lua_load 
+#lua_draw_hook_pre 
+
+# — Colors — #
+color1 1CD0AD
+color2 1CD0AD
+
+own_window_argb_visual yes
+own_window_colour 000000
+own_window_argb_value 0
+
+TEXT
+${font Orore:size=20}${color2}H${voffset -3}${font Liberation:size=16}${color} Kernel: ${font Liberation:size=15}${color1}${kernel}
+${font Orore:size=20}${color2}A${voffset -3}${font Liberation:size=16}${color} Uptime: ${font Liberation:size=15}${color1}${uptime}
+
+#Миравое время
+${font Orore:size=20}${color2}z${voffset -3}${font Liberation:size=16}${color} World Date&Time:
+
+${goto 10}${font UbuntuBeta:size=34}${time %H}${font UbuntuBeta:size=24}${voffset -32}'${time %M}${font UbuntuBeta:size=11}${voffset -15} ${time %S}${font}
+${color1}${goto 15}${voffset -15}${alignr}LA: ${tztime America/Los_Angeles %d/%m| %H:%M}
+${color1}${goto 15}${voffset 1}${alignr}NY: ${tztime America/New_York %d/%m| %H:%M}
+${color1}${goto 15}${voffset 1}${alignr}JP: ${tztime Asia/Tokyo %d/%m| %H:%M}
+
+#${goto 85}${voffset -10}${alignc 8}${font UbuntuBeta:size=8}${time %A}${font}
+#${goto 85}${voffset -2}${alignc -8}${font UbuntuBeta:size=8}${time %d %B %Y}${font}
+
+# Процессор
+${font Orore:size=20}${color2}L${voffset -3}${font Liberation:size=16}${color} CPU: ${font Liberation:size=16}${color1}${cpu cpu0}${color2}${font Liberation:size=16:bold}%${font}${voffset -8}${color1}${goto 10}${offset 175}${freq_g cpu}${color} GHz${voffset 9}${goto 10}${offset 145}${cpubar 3,125}
+${voffset 4}${font Liberation:size=11.3}${color}  Core 1 »»» 	${goto 30}${offset 100}${cpubar cpu1 3,120}${color1} ${cpu cpu1}${color2}%
+${voffset 4}${font Liberation:size=11.3}${color}  Core 2 »»» 	${goto 30}${offset 100}${cpubar cpu2 3,120}${color1} ${cpu cpu2}${color2}%
+${voffset 4}${font Liberation:size=11.3}${color}  Core 3 »»» 	${goto 30}${offset 100}${cpubar cpu3 3,120}${color1} ${cpu cpu3}${color2}%
+${voffset 4}${font Liberation:size=11.3}${color}  Core 4 »»» 	${goto 30}${offset 100}${cpubar cpu4 3,120}${color1} ${cpu cpu4}${color2}%
+
+# Оперативная память
+${voffset -3}${font Orore:size=20}M${voffset -3}${font Liberation:size=16}${color} RAM: ${font Liberation:size=16}${color1}${memperc}${color}${font Liberation:size=16:bold}${color2}%${font}${voffset -8}${color1}${goto 10}${offset 185}${mem}${color}${voffset 9}${goto 10}${offset 165}${membar 3,105}${voffset -8}${color}
+${voffset 12}${font Liberation:size=11.3}  Total Ram »»» ${color1}${memmax}
+
+# Разделы
+# Root:
+${voffset -3}${font Orore:size=20}${color2}Q${voffset -3}${font Liberation:size=16}${color} Root: ${font Liberation:size=16}${color1}${fs_used_perc /}${color2}${font Liberation:size=16:bold}%${font}${voffset -8}${color1}${goto 10}${offset 185}${fs_used /}${color}${voffset 9}${goto 10}${offset 165}${fs_bar 3,105 /}${voffset -8}${color}
+${voffset 12}${font Liberation:size=11.3}  Total Disk »»» ${color1}${fs_size /}
+# Home:
+#${voffset -3}${font Orore:size=20}${color2}Q${voffset -3}${font Liberation:size=16}${color} Home: ${font Liberation:size=16}${color1}${fs_used_perc /home}${color2}${font Liberation:size=16:bold}%${font}${voffset -8}${color1}${goto 10}${offset 185}${fs_used /home}${color}${voffset 9}${goto 10}${offset 165}${fs_bar 3,105 /home}${voffset -8}${color}
+#${voffset 12}${font Liberation:size=11.3}  Total Disk »»» ${color1}${fs_size /home}
+
+# Процессы
+${voffset -3}${font Orore:size=20}${color2}U${voffset -3}${font Liberation:size=16}${color} Processes:${color1}${font Liberation:size=12:bold}${alignr 21}Ram${alignr 8}CPU
+
+  ${voffset -20}${color1}${font Liberation:size=11}${top name 1}${alignr 7}${top mem 1}${top cpu 1}${color}
+  ${top name 2} ${alignr 7} ${top mem 2} ${top cpu 2}
+  ${top name 3} ${alignr 7} ${top mem 3} ${top cpu 3}
+  ${top name 4} ${alignr 7} ${top mem 4} ${top cpu 4}
+  ${top name 5} ${alignr 7} ${top mem 5} ${top cpu 5}
+  ${top name 6} ${alignr 7} ${top mem 6} ${top cpu 6} 
+  ${top name 7} ${alignr 7} ${top mem 7} ${top cpu 7}
+ 
+# Сеть
+${voffset -3}${font Orore:size=20}${color2}Y${voffset -3}${font Liberation:size=16}${color} Network:${if_up enp1s0}
+  ${font Orore:size=20}I${font Liberation:size=11.3}${voffset -5}${color} enp1s0${goto 10}${offset 100} »»» ${alignr 7}${color1}${addr enp1s0}${color}
+  ${voffset 5}${font Orore:size=20}K${font Liberation:size=11.3}${voffset -5} ${upspeed enp1s0}${font Liberation:size=11.3}${goto 50}${offset 100} »»»» ${color1}${goto 10}${alignr 8}${totalup enp1s0}${color}
+  ${voffset 5}${font Orore:size=20}J${font Liberation:size=11.3}${voffset -5} ${downspeed enp1s0}${font Liberation:size=11.3}${goto 50}${offset 100} «««« ${color1}${goto 10}${alignr 8}${totaldown enp1s0}${color}
+
+# Курсы валют
+${voffset -3}${font Orore:size=20}${color2}Z${voffset -3}${font Liberation:size=16}${color} Exchange rate:${font Liberation:size=11.3}
+#${color}	USD  »»» ${color1}	${exec $HOME/.conky/sayman/temp1| head temp1 -n11 | tail -n1}
+#${color}	EUR  »»» ${color1}	${exec $HOME/.conky/sayman/temp1| head temp1 -n12 | tail -n1}
+
+${color1}${execi 10 cat $HOME/.conky/sayman/temp}
+${color1}${execi 10 cat $HOME/.conky/sayman/btctemp}
+#${time %d/%m/}2022  BTC/USD  ${texeci 300 curl https://api.kraken.com/0/public/Ticker?pair=XXBTZUSD | jq ".result.XXBTZUSD.c[0]" | head -c 6 | sed s/[^0-9]//g} 
+
+
+
+
