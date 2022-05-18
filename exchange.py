@@ -1,9 +1,22 @@
 #!/usr/bin/env python3
-import requests; import datetime
+import requests
+import datetime
 from datetime import timedelta
 
-# для вывода данных из скрипта в конфиг conky, необходимо прописать путь до temp,
-# к примеру ${execi 10 cat $HOME/.conky/sayman/temp}
+# request for cryptocurrency data, via the kraken exchange api
+
+resp = requests.get('https://api.kraken.com/0/public/Ticker?pair=XBTUSD').json()
+price = resp['result']['XXBTZUSD']['a'][0][0:5]
+oppening_price = resp['result']['XXBTZUSD']['o'][0:5]
+temp = open('temp', 'w')
+
+if price > oppening_price:
+    print(datetime.datetime.now().strftime(" %d/%m/%Y"), ' BTC/USD ', price, "▲",  file=temp)
+else:
+    print(datetime.datetime.now().strftime(" %d/%m/%Y"), ' BTC/USD ', price, "▼",  file=temp)
+
+# to output data from the script to the conky config, you need to specify the path to temp,
+# for example ${execi 10 cat $HOME/.conky/sayman/temp}
 
 datet = datetime.datetime.now()-timedelta(days=1)
 date = datetime.datetime.now()
@@ -28,7 +41,8 @@ def str_num_func(line):
     return num_out_of_line
 
 
-# Индексы валют, подставьте нужный индекс, по умолчанию выведено EUR, USD
+# Currency indices, substitute the desired index, EUR, USD is output by default
+#
 # GBP[19:21] AZN[14:16] AUD[9:11] INR[69:71] KZT[74:76]
 # USD[59:61] AMD[24:26] BYN[29:31] BGN[34:36] BRL[39:41]
 # HUF[44:46] HKD[49:51] DKK[54:56] CAD[79:81] KGS[84:86]
@@ -38,24 +52,32 @@ def str_num_func(line):
 # CHF[159:161] ZAR[164:166] KRW[169:171] JPY[174:176]
 
 
-numu1, numu2 = str_num_func(st)[59:61]; flusdt = float(numu1+'.'+numu2)
-nume1, nume2 = str_num_func(st)[64:66]; fleurt = float(nume1+'.'+nume2)
+numu1, numu2 = str_num_func(st)[59:61]
+numu3 = numu2[0:2]
+flusdt = float(numu1+'.'+numu3)
 
+nume1, nume2 = str_num_func(st)[64:66]
+nume3 = nume2[0:2]
+fleurt = float(nume1+'.'+nume3)
 
-temp = open('temp', 'w')
+numu1, numu2 = str_num_func(sn)[59:61]
+numu3 = numu2[0:2]
+flusd = float(numu1+'.'+numu3)
 
-numu1, numu2 = str_num_func(sn)[59:61]; flusd = float(numu1+'.'+numu2)
 if flusdt <= flusd:
-    print(date.strftime(" %d/%m/%Y"), ' USD ',flusd,' ▲', file=temp)
+    print(date.strftime(" %d/%m/%Y"), ' USD/RUB ',flusd,'▲', file=temp)
 else:
-    print(date.strftime(" %d/%m/%Y"), ' USD ',flusd,' ▼', file=temp)
+    print(date.strftime(" %d/%m/%Y"), ' USD/RUB ',flusd,'▼', file=temp)
 
 
-nume1, nume2 = str_num_func(sn)[64:66]; fleur = float(nume1+'.'+nume2)
+nume1, nume2 = str_num_func(sn)[64:66]
+nume3 = nume2[0:2]
+fleur = float(nume1+'.'+nume3)
+
 if fleurt <= fleur:
-    print(date.strftime(" %d/%m/%Y"), ' EUR ',fleur,' ▲', file=temp)
+    print(date.strftime(" %d/%m/%Y"), ' EUR/RUB ',fleur,'▲', file=temp)
 else:
-    print(date.strftime(" %d/%m/%Y"), ' EUR ',fleur,' ▼', file=temp)
+    print(date.strftime(" %d/%m/%Y"), ' EUR/RUB ',fleur,'▼', file=temp)
 
 temp.close()
-
+exit()
